@@ -1,4 +1,4 @@
-# RRR (result-reader-rs)
+# RRR (result-reader-rs) [![Build/Test](https://github.com/gokberkkocak/rrr/actions/workflows/ci.yml/badge.svg)](https://github.com/gokberkkocak/rrr/actions/workflows/ci.yml)
 
 Experiment database maintenance tool.
 
