@@ -64,7 +64,7 @@ async fn try_init_db_connection<'a>(db: &'a DBConfig<'a>) -> Result<Conn, mysql_
         "mysql://{}:{}@{}/{}_experiments",
         db.username, db.password, db.host, db.username
     );
-    let pool = Pool::new(url);
+    let pool = Pool::from_url(url)?;
     let conn = pool.get_conn();
     conn.await
 }
