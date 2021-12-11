@@ -49,7 +49,7 @@ impl<'a> DBConfig<'a> {
     }
 }
 
-pub async fn init_db_connection<'a>(db: DBConfig<'a>) -> Conn {
+pub async fn init_db_connection(db: DBConfig<'_>) -> Conn {
     loop {
         match try_init_db_connection(&db).await {
             Ok(conn) => return conn,
@@ -495,7 +495,7 @@ pub async fn commit_to_db(conn: &mut Conn, exp: ExperimentSingle) {
     let r = DBRow::from_solve(
         &exp_id,
         &config_id,
-        exp.config.solve_information.iter().next().unwrap(),
+        exp.config.solve_information.get(0).unwrap(),
     );
     conn.exec_drop(
         r"INSERT INTO experiments (exp_id, config_id, result_type, measured_time, nb_solutions, machine_info, memory_limit, seed)

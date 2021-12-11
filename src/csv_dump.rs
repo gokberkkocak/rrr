@@ -53,8 +53,8 @@ impl ExperimentStore {
         let mut config_names = vec![];
         // config_names.push(String::from("experiment_names"));
         // preprocess to get all config names
-        for (_exp_key, exps) in &self.experiments {
-            for (c_key, _configs) in &exps.configs {
+        for exps in self.experiments.values() {
+            for c_key in exps.configs.keys() {
                 if !config_names.contains(c_key) {
                     config_names.push(c_key.to_string());
                 }

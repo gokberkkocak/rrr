@@ -43,7 +43,7 @@ impl<'a> PlotConfigView<'a> {
             levels_best_nb_sols = &level_info.cumulative_nb_solutions;
         }
 
-        if t.sr_times.len() > 0 {
+        if !t.sr_times.is_empty() {
             PlotConfigView {
                 nb_data_points: t.nb_data_points,
                 total_solver_time_mean: Some(t.solver_times.mean()),

@@ -1,6 +1,5 @@
 use std::io;
 use std::{fs, io::Cursor};
-use zstd;
 const COMPRESSION_LEVEL: i32 = 1;
 
 pub fn _compress_file_to_file(source: &str) {

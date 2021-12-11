@@ -41,9 +41,9 @@ where
     }
 }
 
-pub const JSON_SUFFIX: &'static str = ".json";
+pub const JSON_SUFFIX: &str = ".json";
 
-pub const ZST_SUFFIX: &'static str = ".zst";
+pub const ZST_SUFFIX: &str = ".zst";
 
 pub fn write_to_file(filepath: &str, content: String, compress: bool) {
     match compress {
