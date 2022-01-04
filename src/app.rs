@@ -1,51 +1,51 @@
-use clap::{App, Arg, ArgGroup, ArgMatches, SubCommand};
+use clap::{App, Arg, ArgGroup, ArgMatches};
 
 pub struct RRRApp;
 
 impl RRRApp {
-    pub fn get_matches<'a>() -> ArgMatches<'a> {
-        let matches = App::new("rrr")
+    pub fn get_matches() -> ArgMatches {
+        App::new("rrr")
         .version(env!("CARGO_PKG_VERSION"))
         .about("Result Reader Rust")
-        .subcommand(SubCommand::with_name("local")
+        .subcommand(App::new("local")
             .about("Use RRR in local JSON file(s) mode")
             .arg(
-                Arg::with_name("input")
-                    .short("i")
+                Arg::new("input")
+                    .short('i')
                     .long("input")
                     .help("Sets the json file to use")
                     .takes_value(true)
                     .required(true),
             )
             .arg(
-                Arg::with_name("decompress")
-                    .short("d")
+                Arg::new("decompress")
+                    .short('d')
                     .long("decompress")
                     .help("Set if JSON file is compressed with zstd")
             )
             .arg(
-                Arg::with_name("folder")
-                    .short("f")
+                Arg::new("folder")
+                    .short('f')
                     .long("folder")
                     .help("Set if you want to give folder dump rather than single JSON file")
             )
-            .subcommand(SubCommand::with_name("time")
+            .subcommand(App::new("time")
                 .about("Brings the exact min time of an instance")
                 .arg(
-                    Arg::with_name("sr_time")
-                        .short("r")
+                    Arg::new("sr_time")
+                        .short('r')
                         .long("savilerow-time")
                         .help("Use SR time"),
                 )
                 .arg(
-                    Arg::with_name("solver_time")
-                        .short("s")
+                    Arg::new("solver_time")
+                        .short('s')
                         .long("solver-time")
                         .help("Use solver time"),
                 )
                 .arg(
-                    Arg::with_name("experiment_id")
-                        .short("e")
+                    Arg::new("experiment_id")
+                        .short('e')
                         .long("experiment")
                         .value_name("EXPERIMENT")
                         .help("Give experiment id which is model_instance_freq")
@@ -53,8 +53,8 @@ impl RRRApp {
                         .required(true),
                 )
                 .arg(
-                    Arg::with_name("config_id")
-                        .short("c")
+                    Arg::new("config_id")
+                        .short('c')
                         .long("config")
                         .value_name("CONFIG")
                         .help("Give config id which consists of many fields. miner_lite.py knows how to produce this.")
@@ -62,43 +62,43 @@ impl RRRApp {
                         .required(true),
                 )
                 .group(
-                    ArgGroup::with_name("times")
+                    ArgGroup::new("times")
                         .args(&["sr_time", "solver_time"])
                         .required(true),
                 )
             )
-            .subcommand(SubCommand::with_name("write")
+            .subcommand(App::new("write")
                 .about("Writes to json, merges the side input into main and deletes sides.")
                 .arg(
-                    Arg::with_name("add")
-                        .short("a")
+                    Arg::new("add")
+                        .short('a')
                         .long("add")
                         .value_name("SIDE_INPUT")
                         .help("Files to be consumed and merged")
                         .takes_value(true)
-                        .multiple(true)
+                        .multiple_occurrences(true)
                 )
                 .arg(
-                    Arg::with_name("pretty")
-                        .short("p")
+                    Arg::new("pretty")
+                        .short('p')
                         .long("pretty")
                         .help("Pretty prints the output json")
                 )
                 .arg(
-                    Arg::with_name("maintenance")
-                        .short("m")
+                    Arg::new("maintenance")
+                        .short('m')
                         .long("maintenance")
                         .help("Apply maintenance to json for doubted values")
                 )
                 .arg(
-                    Arg::with_name("compress")
-                        .short("c")
+                    Arg::new("compress")
+                        .short('c')
                         .long("compress")
                         .help("Set if you want to compress with zstd")
                 )
                 .arg(
-                    Arg::with_name("output")
-                        .short("o")
+                    Arg::new("output")
+                        .short('o')
                         .long("output")
                         .value_name("OUTPUT")
                         .help("File to write on")
@@ -106,11 +106,11 @@ impl RRRApp {
                         .required(true),
                 )
             )
-            .subcommand(SubCommand::with_name("convert")
+            .subcommand(App::new("convert")
                 .about("Converts json to the plotter suited version.")
                 .arg(
-                    Arg::with_name("output")
-                        .short("o")
+                    Arg::new("output")
+                        .short('o')
                         .long("output")
                         .value_name("OUTPUT")
                         .help("File to write on")
@@ -118,17 +118,17 @@ impl RRRApp {
                         .required(true),
                 )
                 .arg(
-                    Arg::with_name("pretty")
-                        .short("p")
+                    Arg::new("pretty")
+                        .short('p')
                         .long("pretty")
                         .help("Pretty prints the output json")
                 )
             )
-            .subcommand(SubCommand::with_name("csv-dump")
+            .subcommand(App::new("csv-dump")
                 .about("Converts json as csv for R.")
                 .arg(
-                    Arg::with_name("output")
-                        .short("o")
+                    Arg::new("output")
+                        .short('o')
                         .long("output")
                         .value_name("OUTPUT")
                         .help("File to write on")
@@ -136,17 +136,17 @@ impl RRRApp {
                         .required(true),
                 )
                 .arg(
-                    Arg::with_name("table")
-                        .short("t")
+                    Arg::new("table")
+                        .short('t')
                         .long("table")
                         .help("Dumps table format CSV")
                 )
             )
-            .subcommand(SubCommand::with_name("folder-dump")
+            .subcommand(App::new("folder-dump")
                 .about("Converts json into multiple jsons in a folder.")
                 .arg(
-                    Arg::with_name("output")
-                        .short("o")
+                    Arg::new("output")
+                        .short('o')
                         .long("output")
                         .value_name("OUTPUT")
                         .help("Folder to write")
@@ -154,17 +154,17 @@ impl RRRApp {
                         .required(true),
                 )
                 .arg(
-                    Arg::with_name("compress")
-                        .short("c")
+                    Arg::new("compress")
+                        .short('c')
                         .long("compress")
                         .help("Set if you want to compress with zstd")
                 )
             )
-            .subcommand(SubCommand::with_name("sol")
+            .subcommand(App::new("sol")
                 .about("Brings the number of solution of an instance")
                 .arg(
-                    Arg::with_name("experiment_id")
-                        .short("e")
+                    Arg::new("experiment_id")
+                        .short('e')
                         .long("experiment")
                         .value_name("EXPERIMENT")
                         .help("Give experiment id which is model_instance_freq")
@@ -172,11 +172,11 @@ impl RRRApp {
                         .required(true),
                 )
             )
-            .subcommand(SubCommand::with_name("best-time")
+            .subcommand(App::new("best-time")
                 .about("Brings the best time of an instance")
                 .arg(
-                    Arg::with_name("experiment_id")
-                        .short("e")
+                    Arg::new("experiment_id")
+                        .short('e')
                         .long("experiment")
                         .value_name("EXPERIMENT")
                         .help("Give experiment id which is model_instance_freq")
@@ -184,52 +184,52 @@ impl RRRApp {
                         .required(true),
                 )
                 .arg(
-                    Arg::with_name("sr_time")
-                        .short("r")
+                    Arg::new("sr_time")
+                        .short('r')
                         .long("savilerow-time")
                         .help("Use SR time"),
                 )
                 .arg(
-                    Arg::with_name("solver_time")
-                        .short("s")
+                    Arg::new("solver_time")
+                        .short('s')
                         .long("solver-time")
                         .help("Use solver time"),
                 )
                 .group(
-                    ArgGroup::with_name("times")
+                    ArgGroup::new("times")
                         .args(&["sr_time", "solver_time"])
                         .required(true),
                 )
             )
         )
         // DB     
-        .subcommand(SubCommand::with_name("remote")
+        .subcommand(App::new("remote")
             .about("Use RRR in remote MySQL DB mode")
             .arg(
-                Arg::with_name("db")
-                    .short("d")
+                Arg::new("db")
+                    .short('d')
                     .long("db-config")
                     .value_name("DB_CONFIG")
                     .help("DB conf file")
                     .takes_value(true)
                     .required(true),
             )
-            .subcommand(SubCommand::with_name("init")
+            .subcommand(App::new("init")
                 .about("Init/clear the table and optionally populate from json")
                 .arg(
-                    Arg::with_name("input")
-                        .short("i")
+                    Arg::new("input")
+                        .short('i')
                         .long("input")
                         .value_name("MAIN_JSON")
                         .help("Main storage file json file to populate the db")
                         .takes_value(true)
                 )
             )
-            .subcommand(SubCommand::with_name("sol")
+            .subcommand(App::new("sol")
                 .about("Brings the number of solutions of an instance")
                 .arg(
-                Arg::with_name("experiment_id")
-                    .short("e")
+                Arg::new("experiment_id")
+                    .short('e')
                     .long("experiment")
                     .value_name("EXPERIMENT")
                     .help("Give experiment id which is model_instance_freq")
@@ -237,11 +237,11 @@ impl RRRApp {
                     .required(true),
                 )
             )
-            .subcommand(SubCommand::with_name("best-time")
+            .subcommand(App::new("best-time")
                 .about("Brings the best sr time of an instance")
                 .arg(
-                    Arg::with_name("experiment_id")
-                        .short("e")
+                    Arg::new("experiment_id")
+                        .short('e')
                         .long("experiment")
                         .value_name("EXPERIMENT")
                         .help("Give experiment id which is model_instance_freq")
@@ -249,11 +249,11 @@ impl RRRApp {
                         .required(true),
                 )
             )
-            .subcommand(SubCommand::with_name("time")
+            .subcommand(App::new("time")
                 .about("Finds the exact min time of an instance from the db")
                 .arg(
-                    Arg::with_name("experiment_id")
-                        .short("e")
+                    Arg::new("experiment_id")
+                        .short('e')
                         .long("experiment")
                         .value_name("EXPERIMENT")
                         .help("Give experiment id which is model_instance_freq")
@@ -261,8 +261,8 @@ impl RRRApp {
                         .required(true),
                 )
                 .arg(
-                    Arg::with_name("config_id")
-                        .short("c")
+                    Arg::new("config_id")
+                        .short('c')
                         .long("config")
                         .value_name("CONFIG")
                         .help("Give config id which consists of many fields. miner_lite.py knows how to produce this")
@@ -270,11 +270,11 @@ impl RRRApp {
                         .required(true),
                 )
             )
-            .subcommand(SubCommand::with_name("nb-success")
+            .subcommand(App::new("nb-success")
                 .about("Checks the db to find how many distinct seed successful runs on db.")
                 .arg(
-                    Arg::with_name("experiment_id")
-                        .short("e")
+                    Arg::new("experiment_id")
+                        .short('e')
                         .long("experiment")
                         .value_name("EXPERIMENT")
                         .help("Give experiment id which is model_instance_freq")
@@ -282,8 +282,8 @@ impl RRRApp {
                         .required(true),
                 )
                 .arg(
-                    Arg::with_name("config_id")
-                        .short("c")
+                    Arg::new("config_id")
+                        .short('c')
                         .long("config")
                         .value_name("CONFIG")
                         .help("Give config id which consists of many fields. miner_lite.py knows how to produce this")
@@ -291,11 +291,11 @@ impl RRRApp {
                         .required(true),
                 )
             )
-            .subcommand(SubCommand::with_name("commit")
+            .subcommand(App::new("commit")
                 .about("Commits the new entry to db")
                 .arg(
-                    Arg::with_name("add")
-                        .short("a")
+                    Arg::new("add")
+                        .short('a')
                         .long("add")
                         .value_name("EXPERIMENT")
                         .help("Give single experiment in json format.")
@@ -304,7 +304,6 @@ impl RRRApp {
                 )
             )
         )
-        .get_matches();
-        matches
+        .get_matches()
     }
 }
